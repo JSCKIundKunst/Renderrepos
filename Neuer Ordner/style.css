@@ -1,0 +1,122 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 40px;
+  font-family: 'Comic Sans MS', 'Papyrus', cursive, fantasy;
+  background: linear-gradient(to bottom, #fffce8, #330165);
+  color: #4b0082;
+  text-align: center;
+}
+
+h1 {
+  font-size: 36px;
+  color: #cc00cc;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px #ffffff;
+}
+
+.generator-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+button {
+  background-color: hotpink;
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: deeppink;
+}
+
+video#loadingVideo {
+  display: block;
+  width: 220px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255, 20, 147, 0.5);
+}
+
+#output, #output2 {
+  margin: 30px auto;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  width: 80%;
+  max-width: 900px;
+  min-height: 150px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+input[type="email"] {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 300px;
+}
+
+h2 {
+  font-size: 20px;
+  margin-top: 30px;
+  color: #222;
+}
+
+nav.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+nav.tabs button {
+  background-color: #dda0dd;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+nav.tabs button:hover {
+  background-color: #ba55d3;
+}
+
+.tab-content {
+  display: none;
+}
+
+/* Bild als Button */
+#startImage {
+  width: 30%;
+  cursor: pointer;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  
+}
+
+#startImage:hover {
+  box-shadow: 0 16px 16px rgba(0, 0, 0, 0.5);
+}
+
+#bildpromptTab {
+  border: 1px dashed #888;
+  padding: 1em;
+  margin-bottom: 10px;
+  background: #f9f9f9;
+}
