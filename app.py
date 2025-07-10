@@ -434,13 +434,15 @@ print("\n✅ Vorproduktion abgeschlossen mit Gewichtung 1-1-1-1-1-3 (insg. 1200 
 """
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import os
 import json
 import random
 import re
-from email.mime.text import MIMEText
 import smtplib
+from email.mime.text import MIMEText
 
 app = FastAPI()
 
@@ -452,6 +454,17 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# 📁 Statische Dateien (style.css, script.js etc.) bereitstellen
+app.mount("/static", StaticFiles(directory="."), name="static")
+
+# 🏠 Indexseite (HTML) ausliefern
+@app.get("/", response_class=HTMLResponse)
+def read_index():
+    if os.path.exists("index.html"):
+        with open("index.html", "r", encoding="utf-8") as f:
+            return f.read()
+    return HTMLResponse(content="<h1>index.html nicht gefunden</h1>", status_code=404)
 
 # 🔹 Text aus vorgenerierter Datei laden und Eintrag löschen
 @app.post("/generate")
@@ -475,12 +488,11 @@ async def generate_from_pre_generated(request: Request):
     filename = prompt_map[matched[0]]
     path = os.path.join("pre_generated", filename)
 
-    # 1️⃣ Vorherige Einträge löschen
+    # Alte Einträge löschen
     todelete_path = "todelete.json"
     if os.path.exists(todelete_path):
         with open(todelete_path, "r", encoding="utf-8") as f:
             todelete = json.load(f)
-
         if todelete.get("file") and todelete.get("html"):
             target_path = os.path.join("pre_generated", todelete["file"])
             if os.path.exists(target_path):
@@ -491,7 +503,7 @@ async def generate_from_pre_generated(request: Request):
                     with open(target_path, "w", encoding="utf-8") as f:
                         json.dump(entries, f, ensure_ascii=False, indent=2)
 
-    # 2️⃣ Neue Einträge laden
+    # Neue Einträge laden
     if not os.path.exists(path):
         raise HTTPException(status_code=404, detail="Datei nicht gefunden")
 
@@ -499,18 +511,17 @@ async def generate_from_pre_generated(request: Request):
         entries = json.load(f)
 
     if not entries:
-        raise HTTPException(status_code=404, detail="Keine Einträge mehr in Datei vorhanden.")
+        raise HTTPException(status_code=404, detail="Keine Einträge mehr vorhanden.")
 
     selected = random.choice(entries)
 
-    # 3️⃣ Neue "todelete" speichern
+    # Zuletzt verwendeten Eintrag speichern
     with open(todelete_path, "w", encoding="utf-8") as f:
         json.dump({"file": filename, "html": selected}, f, ensure_ascii=False, indent=2)
 
     return {"response": selected}
 
-
-# 🔹 Mailversand
+# 📧 Mailversand
 class EmailRequest(BaseModel):
     to: str
     html: str
