@@ -516,6 +516,10 @@ async def generate_from_db(request: Request):
 
         mail_id, html = result
 
+        cur.execute("""
+            INSERT INTO mails_archiv (html, original_table) VALUES (%s, %s);
+        """, (html, table_name))
+        
         # Schritt 2: Jetzt diesen Eintrag löschen
         cur.execute(f"DELETE FROM {table_name} WHERE id = %s;", (mail_id,))
         conn.commit()
