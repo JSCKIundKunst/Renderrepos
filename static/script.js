@@ -41,7 +41,7 @@ async function generateWithPrompt(prompt) {
   video.style.display = "block";
 
   try {
-    const response = await fetch("http://localhost:8000/generate", {
+    const response = await fetch("/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt })
@@ -104,7 +104,7 @@ async function sendEmail() {
   }
 
   try {
-    const response = await fetch("http://localhost:8000/send_email", {
+    const response = await fetch("/send_email", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ to: email, html: fullGeneratedHtml })
