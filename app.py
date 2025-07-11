@@ -467,59 +467,66 @@ def read_index():
     return HTMLResponse(content="<h1>index.html nicht gefunden</h1>", status_code=404)
 
 # 🔹 Text aus vorgenerierter Datei laden und Eintrag löschen
+
+import psycopg2
+
+# Datenbankverbindung einmal global öffnen
+def get_db_connection():
+    return psycopg2.connect(
+        host="dpg-d1nsqu95pdvs738nvou0-a",
+        port=5432,
+        database="kiundkunstdb",
+        user="kiundkunstdb_user",
+        password="V9yLU0Nz1j31F4I3b5vJLF0w1QAQbhy7",
+        sslmode="require"
+    )
+
 @app.post("/generate")
-async def generate_from_pre_generated(request: Request):
+async def generate_from_db(request: Request):
     data = await request.json()
     prompt = data.get("prompt", "")
 
     prompt_map = {
-        "Generiere eine satirische Spam-Mail in der Fantasywelt": "fantasy.json",
-        "Generiere eine satirische Spam-Mail in der Tierwelt": "tiere.json",
-        "Generiere eine satirische Spam-Mail im Büroalltag": "buero.json",
-        "Generiere eine satirische Spam-Mail im Weltall": "weltall.json",
-        "Generiere eine satirische Spam-Mail im Pflanzenreich": "pflanzen.json",
-        "Generiere eine satirische Spam-Mail": "zufall.json"
+        "Generiere eine satirische Spam-Mail in der Fantasywelt": "mails_fantasy",
+        "Generiere eine satirische Spam-Mail in der Tierwelt": "mails_tiere",
+        "Generiere eine satirische Spam-Mail im Büroalltag": "mails_buero",
+        "Generiere eine satirische Spam-Mail im Weltall": "mails_weltall",
+        "Generiere eine satirische Spam-Mail im Pflanzenreich": "mails_pflanzen",
+        "Generiere eine satirische Spam-Mail": "mails_zufall"
     }
 
     matched = [key for key in prompt_map if key in prompt]
     if not matched:
         raise HTTPException(status_code=400, detail="Ungültiger Prompt")
 
-    filename = prompt_map[matched[0]]
-    path = os.path.join("pre_generated", filename)
+    table_name = prompt_map[matched[0]]
 
-    # Alte Einträge löschen
-    todelete_path = "todelete.json"
-    if os.path.exists(todelete_path):
-        with open(todelete_path, "r", encoding="utf-8") as f:
-            todelete = json.load(f)
-        if todelete.get("file") and todelete.get("html"):
-            target_path = os.path.join("pre_generated", todelete["file"])
-            if os.path.exists(target_path):
-                with open(target_path, "r", encoding="utf-8") as f:
-                    entries = json.load(f)
-                if todelete["html"] in entries:
-                    entries.remove(todelete["html"])
-                    with open(target_path, "w", encoding="utf-8") as f:
-                        json.dump(entries, f, ensure_ascii=False, indent=2)
+    try:
+        conn = get_db_connection()
+        cur = conn.cursor()
 
-    # Neue Einträge laden
-    if not os.path.exists(path):
-        raise HTTPException(status_code=404, detail="Datei nicht gefunden")
+        # Schritt 1: Einen zufälligen Datensatz abrufen (inkl. ID)
+        cur.execute(f"SELECT id, html FROM {table_name} ORDER BY RANDOM() LIMIT 1;")
+        result = cur.fetchone()
 
-    with open(path, "r", encoding="utf-8") as f:
-        entries = json.load(f)
+        if not result:
+            cur.close()
+            conn.close()
+            raise HTTPException(status_code=404, detail="Keine Einträge gefunden.")
 
-    if not entries:
-        raise HTTPException(status_code=404, detail="Keine Einträge mehr vorhanden.")
+        mail_id, html = result
 
-    selected = random.choice(entries)
+        # Schritt 2: Jetzt diesen Eintrag löschen
+        cur.execute(f"DELETE FROM {table_name} WHERE id = %s;", (mail_id,))
+        conn.commit()
 
-    # Zuletzt verwendeten Eintrag speichern
-    with open(todelete_path, "w", encoding="utf-8") as f:
-        json.dump({"file": filename, "html": selected}, f, ensure_ascii=False, indent=2)
+        cur.close()
+        conn.close()
 
-    return {"response": selected}
+        return {"response": html}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Datenbankfehler: {e}")
 
 # 📧 Mailversand
 class EmailRequest(BaseModel):
