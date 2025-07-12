@@ -1,25 +1,54 @@
+let fullGeneratedHtml = "";
+let promptButtonsInitialized = false;
+
 window.onload = () => {
+  initStartScreen();
+  preventReload();
+  initNavigationTabs();
+};
+
+function initStartScreen() {
   switchTab('start');
+
   const startImage = document.getElementById("startImage");
   if (startImage) {
     startImage.addEventListener("click", showMainUI);
   }
-};
+}
 
-// Schutz vor versehentlichem Reload
-window.addEventListener("beforeunload", function (e) {
-  e.preventDefault();
-  e.returnValue = "";
-  console.warn("🚨 Seite wollte sich neu laden!");
-});
+function preventReload() {
+  window.addEventListener("beforeunload", function (e) {
+    e.preventDefault();
+    e.returnValue = "";
+    console.warn("🚨 Seite wollte sich neu laden!");
+  });
+}
+
+function initNavigationTabs() {
+  document.querySelectorAll("nav.tabs button").forEach(button => {
+    button.addEventListener("click", () => {
+      const tab = button.dataset.tab;
+      switchTab(tab);
+    });
+  });
+}
 
 function showMainUI() {
   document.getElementById("mainTitle").style.display = "block";
   document.querySelector("nav.tabs").style.display = "flex";
   switchTab('generator');
-}
 
-let fullGeneratedHtml = "";
+  if (!promptButtonsInitialized) {
+    document.querySelectorAll(".prompt-buttons button").forEach(button => {
+      button.addEventListener("click", async () => {
+        const prompt = button.dataset.prompt || "Generiere eine satirische Spam-Mail";
+        await delayedGenerate(prompt);
+      });
+    });
+    document.getElementById("sendBtn").addEventListener("click", sendEmail);
+    promptButtonsInitialized = true;
+  }
+}
 
 function switchTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(tab => {
@@ -29,15 +58,23 @@ function switchTab(tabId) {
   if (selected) selected.style.display = "block";
 }
 
+async function delayedGenerate(prompt) {
+  const video = document.getElementById("loadingGif");
+  video.style.display = "block";
+
+  const delay = Math.floor(Math.random() * 2000) + 2000; // 2000–4000ms
+  await new Promise(resolve => setTimeout(resolve, delay));
+
+  await generateWithPrompt(prompt);
+}
+
 async function generateWithPrompt(prompt) {
   console.log("🔘 Prompt gestartet:", prompt);
 
   const video = document.getElementById("loadingGif");
   const output = document.getElementById("output");
-  
 
   output.innerHTML = "";
-  
   video.style.display = "block";
 
   try {
@@ -61,7 +98,6 @@ async function generateWithPrompt(prompt) {
     let html = data.response;
     fullGeneratedHtml = html;
 
-    // ⛏️ Nur <body>-Inhalt extrahieren (wie früher)
     const bodyMatch = html.match(/<body\s*(style="[^"]*")?[^>]*>([\s\S]*?)<\/body>/i);
     let bodyStyle = "";
     let bodyContent = html;
@@ -72,14 +108,9 @@ async function generateWithPrompt(prompt) {
       bodyContent = bodyMatch[2];
     }
 
-    // 🧱 HTML-Inhalt einfügen wie früher
     output.setAttribute("style", `border:1px solid #ccc; padding:1em; margin-top:10px; ${bodyStyle}`);
     output.innerHTML = bodyContent;
 
-    
-    
-
-    // ⛔ Prevent reloads from <a href="#">
     output.querySelectorAll("a[href='#']").forEach(link => {
       link.addEventListener("click", e => {
         e.preventDefault();
