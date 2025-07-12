@@ -78,7 +78,7 @@ async function generateWithPrompt(prompt) {
   const video = document.getElementById("loadingGif");
   video.style.display = "block";
   const output = document.getElementById("output");
-  const baum = document.getElementById("baum")
+  const baum = document.getElementById("baum");
   baum.style.display ="none";
   output.innerHTML = "";
 
