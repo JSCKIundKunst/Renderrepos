@@ -120,3 +120,6 @@ nav.tabs button:hover {
   margin-bottom: 10px;
   background: #f9f9f9;
 }
+.hidden-during-loading {
+  display: none !important;
+}
