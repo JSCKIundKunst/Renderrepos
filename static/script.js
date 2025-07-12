@@ -1,4 +1,4 @@
-let fullGeneratedHtml = "";
+let fullGeneratedHtml = "";// Schutz vor versehentlichem Reload
 let promptButtonsInitialized = false;
 
 window.onload = () => {
