@@ -59,6 +59,8 @@ function switchTab(tabId) {
 }
 
 async function delayedGenerate(prompt) {
+  const baum = document.getElementById("baum")
+  baum.style.display ="none";
   const video = document.getElementById("loadingGif");
   video.style.display = "block";
   const output = document.getElementById("output");
@@ -76,7 +78,8 @@ async function generateWithPrompt(prompt) {
   const video = document.getElementById("loadingGif");
   video.style.display = "block";
   const output = document.getElementById("output");
-
+  const baum = document.getElementById("baum")
+  baum.style.display ="none";
   output.innerHTML = "";
 
 
@@ -126,6 +129,7 @@ async function generateWithPrompt(prompt) {
     alert("Fehler bei der Generierung.");
   } finally {
     video.style.display = "none";
+    baum.style.display ="block";
   }
 }
 
