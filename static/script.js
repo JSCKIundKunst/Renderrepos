@@ -59,14 +59,13 @@ function switchTab(tabId) {
 }
 
 async function delayedGenerate(prompt) {
-  const baum = document.getElementById("baum");
-  baum.style.display ="none";
+
   const video = document.getElementById("loadingGif");
   video.style.display = "block";
   const output = document.getElementById("output");
 
   output.innerHTML = "";
-  const delay = Math.floor(Math.random() * 2000) + 2000; // 2000–4000ms
+  const delay = Math.floor(Math.random() * 1000) + 2000; // 2000–4000ms
   await new Promise(resolve => setTimeout(resolve, delay));
 
   await generateWithPrompt(prompt);
@@ -78,8 +77,6 @@ async function generateWithPrompt(prompt) {
   const video = document.getElementById("loadingGif");
   video.style.display = "block";
   const output = document.getElementById("output");
-  const baum = document.getElementById("baum");
-  baum.style.display ="none";
   output.innerHTML = "";
 
 
@@ -129,7 +126,7 @@ async function generateWithPrompt(prompt) {
     alert("Fehler bei der Generierung.");
   } finally {
     video.style.display = "none";
-    baum.style.display ="block";
+    
   }
 }
 
