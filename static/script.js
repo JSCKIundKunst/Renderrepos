@@ -153,3 +153,14 @@ async function sendEmail() {
     alert("Fehler beim Mailversand.");
   }
 }
+function hideUIWhileLoading() {
+  document.querySelectorAll(".prompt-buttons, #emailInput, #sendBtn, h2").forEach(el => {
+    el.classList.add("hidden-during-loading");
+  });
+}
+
+function showUIAfterLoading() {
+  document.querySelectorAll(".prompt-buttons, #emailInput, #sendBtn, h2").forEach(el => {
+    el.classList.remove("hidden-during-loading");
+  });
+}
