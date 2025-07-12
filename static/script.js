@@ -73,7 +73,8 @@ async function delayedGenerate(prompt) {
 async function generateWithPrompt(prompt) {
   console.log("🔘 Prompt gestartet:", prompt);
 
-  
+  const video = document.getElementById("loadingGif");
+  video.style.display = "block";
   const output = document.getElementById("output");
 
   output.innerHTML = "";
