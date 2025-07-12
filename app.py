@@ -456,7 +456,7 @@ app.add_middleware(
 )
 
 # 📁 Statische Dateien (style.css, script.js etc.) bereitstellen
-app.mount("/static", StaticFiles(directory="."), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # 🏠 Indexseite (HTML) ausliefern
 @app.get("/", response_class=HTMLResponse)
