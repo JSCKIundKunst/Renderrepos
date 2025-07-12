@@ -59,7 +59,7 @@ function switchTab(tabId) {
 }
 
 async function delayedGenerate(prompt) {
-  const baum = document.getElementById("baum")
+  const baum = document.getElementById("baum");
   baum.style.display ="none";
   const video = document.getElementById("loadingGif");
   video.style.display = "block";
