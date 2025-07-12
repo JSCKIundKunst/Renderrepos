@@ -154,7 +154,7 @@ async function sendEmail() {
   }
 }
 function hideUIWhileLoading() {
-  document.querySelectorAll(".prompt-buttons, #emailInput, #sendBtn, h2").forEach(el => {
+  document.querySelectorAll(".prompt-buttons, #emailInput, #sendBtn, h2,#output").forEach(el => {
     el.classList.add("hidden-during-loading");
   });
 }
