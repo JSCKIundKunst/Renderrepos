@@ -10,8 +10,8 @@
   <h1 id="mainTitle" style="display: none;">Satire Spam-Mail Generator</h1>
 
   <nav class="tabs" style="display: none;">
-    <button type="button" onclick="switchTab('generator')">Spam-Generator</button>
-    <button type="button" onclick="switchTab('über')">Über</button>
+    <button type="button" data-tab="generator">Spam-Generator</button>
+    <button type="button" data-tab="über">Über</button>
   </nav>
 
   <div id="start" class="tab-content">
@@ -25,12 +25,12 @@
   <div id="generator" class="tab-content">
     <div class="generator-box">
       <div class="prompt-buttons">
-        <button type="button" onclick="generateWithPrompt('Generiere eine satirische Spam-Mail in der Fantasywelt')">🧙‍♂️ Fantasywelt 🐉</button>
-        <button type="button" onclick="generateWithPrompt('Generiere eine satirische Spam-Mail in der Tierwelt')">🦁 Tierwelt 🐒</button>
-        <button type="button" onclick="generateWithPrompt('Generiere eine satirische Spam-Mail im Büroalltag')">🖥️ Büroalltag ☕</button>
-        <button type="button" onclick="generateWithPrompt('Generiere eine satirische Spam-Mail im Weltall')">🚀 Sci-Fi 🪐</button>
-        <button type="button" onclick="generateWithPrompt('Generiere eine satirische Spam-Mail im Pflanzenreich')">🌿 Pflanzenwelt 🌻</button>
-        <button type="button" onclick="generateWithPrompt('Generiere eine satirische Spam-Mail')">🎲 Zufällig 💌</button>
+        <button type="button" data-prompt="Generiere eine satirische Spam-Mail in der Fantasywelt">🧙‍♂️ Fantasywelt 🐉</button>
+        <button type="button" data-prompt="Generiere eine satirische Spam-Mail in der Tierwelt">🦁 Tierwelt 🐒</button>
+        <button type="button" data-prompt="Generiere eine satirische Spam-Mail im Büroalltag">🖥️ Büroalltag ☕</button>
+        <button type="button" data-prompt="Generiere eine satirische Spam-Mail im Weltall">🚀 Sci-Fi 🪐</button>
+        <button type="button" data-prompt="Generiere eine satirische Spam-Mail im Pflanzenreich">🌿 Pflanzenwelt 🌻</button>
+        <button type="button" data-prompt="Generiere eine satirische Spam-Mail">🎲 Zufällig 💌</button>
       </div>
 
       <img id="loadingGif" src="/static/rotating_mouse_transparent.gif" alt="Loading..." style="display: none;" />
@@ -40,7 +40,7 @@
     <div id="output"></div>
 
     <input type="email" id="emailInput" placeholder="Empfänger-E-Mail" />
-    <button type="button" onclick="sendEmail()">📤 Mail versenden</button>
+    <button type="button" id="sendBtn">📤 Mail versenden</button>
   </div>
 </body>
 </html>
