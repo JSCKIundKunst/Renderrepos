@@ -61,7 +61,9 @@ function switchTab(tabId) {
 async function delayedGenerate(prompt) {
   const video = document.getElementById("loadingGif");
   video.style.display = "block";
+  const output = document.getElementById("output");
 
+  output.innerHTML = "";
   const delay = Math.floor(Math.random() * 2000) + 2000; // 2000–4000ms
   await new Promise(resolve => setTimeout(resolve, delay));
 
@@ -71,11 +73,11 @@ async function delayedGenerate(prompt) {
 async function generateWithPrompt(prompt) {
   console.log("🔘 Prompt gestartet:", prompt);
 
-  const video = document.getElementById("loadingGif");
+  
   const output = document.getElementById("output");
 
   output.innerHTML = "";
-  video.style.display = "block";
+
 
   try {
     const response = await fetch("/generate", {
