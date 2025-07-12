@@ -59,11 +59,11 @@ function switchTab(tabId) {
 }
 
 async function delayedGenerate(prompt) {
-
   const video = document.getElementById("loadingGif");
   video.style.display = "block";
-  const output = document.getElementById("output");
+  hideUIWhileLoading(); // UI-Elemente ausblenden
 
+  const output = document.getElementById("output");
   output.innerHTML = "";
   const delay = Math.floor(Math.random() * 1000) + 2000; // 2000–4000ms
   await new Promise(resolve => setTimeout(resolve, delay));
@@ -126,7 +126,7 @@ async function generateWithPrompt(prompt) {
     alert("Fehler bei der Generierung.");
   } finally {
     video.style.display = "none";
-    
+    showUIAfterLoading();
   }
 }
 
