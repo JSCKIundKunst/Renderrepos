@@ -539,8 +539,8 @@ class EmailRequest(BaseModel):
 
 @app.post("/send_email")
 async def send_email(data: EmailRequest):
-    sender_email = "jelle.alexander.walter.pichl@gmail.com"
-    sender_pass = "otpf krsi enqi nxgk"
+    sender_email = "kiundkunstjsc@gmail.com"
+    sender_pass = "aeyd cikl iuob nomc"
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
 
