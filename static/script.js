@@ -146,7 +146,7 @@ async function sendEmail() {
     });
 
     const result = await response.json();
-    alert(result.message || "Mail gesendet!");
+    alert(result.message || "Mail gesendet! bitte schaue in deinen Spam-Ordner");
     document.getElementById("emailInput").value = "";
   } catch (error) {
     console.error("Fehler beim Senden der Mail:", error);
