@@ -134,6 +134,6 @@ input[type="email"] {
 .hidden-during-loading {
   display: none !important;
 }
-#loadingGif[
+#loadingGif{
 width: 10%;
 }
