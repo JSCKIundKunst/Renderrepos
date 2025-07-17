@@ -147,7 +147,7 @@ async function sendEmail() {
 
     const result = await response.json();
     alert(result.message || "Mail gesendet!");
-
+    document.getElementById("emailInput").value = "";
   } catch (error) {
     console.error("Fehler beim Senden der Mail:", error);
     alert("Fehler beim Mailversand.");
