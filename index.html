@@ -6,10 +6,17 @@
   <link rel="icon" type="image/png" href="static/Bild2.png">
   <link rel="stylesheet" href="/static/style.css" />
   <script src="/static/script.js"></script>
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-NKPMHZ8QP8"></script>
+ <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NKPMHZ8QP8', { 'anonymize_ip': true });
+ </script>
 </head>
 <body>
   <h1 id="mainTitle" style="display: none;">Mausiger Spam-Mail Generator</h1>
-  <p>Hier könnt ihr euch eure eigenen mausigen Spam generieren und schicken lassen.</p>
   <nav class="tabs" style="display: none;">
     <button type="button" data-tab="generator">Spam-Generator</button>
     <button type="button" data-tab="über">Über</button>
@@ -69,6 +76,7 @@
   <div id="generator" class="tab-content">
     <div class="generator-box">
       <div class="prompt-buttons">
+        <p>Hier könnt ihr euch eure eigenen mausigen Spam generieren und schicken lassen.</p>
         <button type="button" data-prompt="Generiere eine satirische Spam-Mail">🎲 Zufällig 💌</button>
         <button type="button" data-prompt="Generiere eine satirische Spam-Mail in der Fantasywelt">🧙‍♂️ Fantasywelt 🐉</button>
         <button type="button" data-prompt="Generiere eine satirische Spam-Mail in der Tierwelt">🦁 Tierwelt 🐒</button>
