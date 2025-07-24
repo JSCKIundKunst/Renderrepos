@@ -73,9 +73,9 @@ async function delayedGenerate(prompt) {
 
 async function generateWithPrompt(prompt) {
   console.log("🔘 Prompt gestartet:", prompt);
-  const  vivi = document.getElementById("Baumhaus");
+  
   const video = document.getElementById("loadingGif");
-  vivi.style.display="none";
+  
   video.style.display = "block";
   const output = document.getElementById("output");
   output.innerHTML = "";
@@ -127,7 +127,7 @@ async function generateWithPrompt(prompt) {
     alert("Fehler bei der Generierung.");
   } finally {
     video.style.display = "none";
-    vivi.style.display="block";
+    
     showUIAfterLoading();
   }
 }
